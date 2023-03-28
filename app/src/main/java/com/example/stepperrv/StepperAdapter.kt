@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.stepperrv.databinding.StepperRowItemBinding
 
-class StepperAdapter(private val mList: List<String>) : RecyclerView.Adapter<StepperAdapter.StepperViewHolder>() {
+class StepperAdapter(
+    private val mList: List<String>,
+    private val callback : (binding : StepperRowItemBinding,value : Int) -> Unit) : RecyclerView.Adapter<StepperAdapter.StepperViewHolder>() {
 
     class StepperViewHolder(val binding: StepperRowItemBinding) : ViewHolder(binding.root){
         fun bind(position : String){
@@ -29,11 +31,12 @@ class StepperAdapter(private val mList: List<String>) : RecyclerView.Adapter<Ste
     }
 
     override fun onBindViewHolder(holder: StepperViewHolder, position: Int) {
-        holder.bind(position.toString())
-        holder.binding.stepperText.setOnClickListener {
-            val context = holder.binding.stepperText.context
-            Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show()
+        holder.bind((position+1).toString())
+        var  pos : Int = 0
+        val context = holder.binding.stepperText.context
+        if(pos == position){
             holder.binding.stepperText.background = ContextCompat.getDrawable(context,R.drawable.select_button)
         }
+        callback(holder.binding,position)
     }
 }
