@@ -2,6 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="model"
+            type="com.example.stepperrv.StepperModel" />
 
     </data>
 
@@ -30,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                android:text="1"
+                android:text="@{String.valueOf(model.id)}"
                 android:textSize="10sp"
                 android:layout_toRightOf="@+id/view"
                 android:textStyle="bold"
