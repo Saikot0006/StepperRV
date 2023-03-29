@@ -1,13 +1,17 @@
 package com.example.stepperrv
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var stepRV : RecyclerView
+    private lateinit var nextID : Button
     private var mList: ArrayList<String> = ArrayList()
     private lateinit var stepperAdapter: StepperAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         stepRV = findViewById(R.id.stepRV)
+        nextID = findViewById(R.id.nextID)
 
         mList.add("1")
         mList.add("2")
@@ -37,7 +42,25 @@ class MainActivity : AppCompatActivity() {
         mList.add("19")
         mList.add("20")
 
-        stepperAdapter = StepperAdapter(mList)
+        nextID.setOnClickListener {
+            Toast.makeText(this@MainActivity, "value", Toast.LENGTH_SHORT).show()
+
+            stepperAdapter = StepperAdapter(mList,{binding,value ->
+                    Toast.makeText(this@MainActivity, ""+value, Toast.LENGTH_SHORT).show()
+                    binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.complete)
+                    binding.stepperText.setTextColor(Color.parseColor("#ffffff"))
+
+            })
+        }
+
+        stepperAdapter = StepperAdapter(mList,{binding,value ->
+            binding.stepperText.setOnClickListener {
+                Toast.makeText(this@MainActivity, ""+value, Toast.LENGTH_SHORT).show()
+                binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
+
+            }
+
+        })
 
         stepRV.apply {
             layoutManager = LinearLayoutManager(applicationContext,LinearLayoutManager.HORIZONTAL,false)
