@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -31,14 +32,15 @@
                 android:id="@+id/stepperText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_centerInParent="true"
-                android:text="@{String.valueOf(model.id)}"
-                android:textSize="10sp"
                 android:layout_toRightOf="@+id/view"
-                android:textStyle="bold"
+                android:background="@drawable/round_button"
+                android:gravity="center"
+                android:text="@{String.valueOf(model.id)}"
                 android:textColor="#4CAF50"
-                android:background="@drawable/round_button" />
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:text="@{String.valueOf(model.id)}" />
 
 
             <View

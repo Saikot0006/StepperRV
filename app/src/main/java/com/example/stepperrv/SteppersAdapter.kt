@@ -1,7 +1,9 @@
 package com.example.stepperrv
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +12,9 @@ import com.example.stepperrv.databinding.StepperRowItemBinding
 class SteppersAdapter(
     private val callback : (binding: StepperRowItemBinding,value : Int,model: StepperModel) -> Unit) :
     ListAdapter<StepperModel,SteppersAdapter.SteppersViewHolder>(SteppersDiffUtill()) {
-
+    //var checkPosition : Int = 0
+  //  private var checkPosition : Int = 0
+    //private var dataModel = StepperModel(1,false,false)
     class SteppersViewHolder(val binding: StepperRowItemBinding)
         : RecyclerView.ViewHolder(binding.root){
 
@@ -38,6 +42,15 @@ class SteppersAdapter(
     override fun onBindViewHolder(holder: SteppersViewHolder, position: Int) {
         var data = getItem(position)
         holder.bind(data)
+
+
+
         callback(holder.binding,position,data)
+
+
+
     }
+
+
+
 }

@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var steppersAdapter: SteppersAdapter
     private var isSelectedText : Int = 1
     private var isCompleteText = false
+    private var checkPosition = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,39 +36,64 @@ class MainActivity : AppCompatActivity() {
         mList.add(StepperModel(7,false,false))
         mList.add(StepperModel(8,false,false))
         mList.add(StepperModel(9,false,false))
-        mList.add(StepperModel(10,false,false))
-        mList.add(StepperModel(11,false,false))
-        mList.add(StepperModel(12,false,false))
-        mList.add(StepperModel(13,false,false))
-        mList.add(StepperModel(14,false,false))
-        mList.add(StepperModel(15,false,false))
-        mList.add(StepperModel(16,false,false))
-        mList.add(StepperModel(17,false,false))
-        mList.add(StepperModel(18,false,false))
-        mList.add(StepperModel(19,false,false))
-        mList.add(StepperModel(20,false,false))
 
 
 
         steppersAdapter = SteppersAdapter({binding, value, model ->
-            binding.stepperText.setOnClickListener {
-                model.isSelected = true
-
-                if(model.isSelected){
-                    Toast.makeText(this@MainActivity, ""+value, Toast.LENGTH_SHORT).show()
-                    binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
-                }
-
-
+            if(checkPosition==value){
+                Log.e("model", "onCreate: hhhh"+model )
                 nextID.setOnClickListener {
-                    val model = StepperModel(value,false,true)
-                    Log.e("model", "onCreate: "+model)
-                    if(model.isCompleted && model.id == value){
+                    model.isCompleted = true
+                    if(model.isCompleted.equals(true)){
                         binding.stepperText.setTextColor(resources.getColor(R.color.white))
                         binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.complete)
                     }
 
                 }
+                binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
+            }
+
+
+            binding.stepperText.setOnClickListener {
+
+                /*if(value!=checkPosition){
+                    for(i in 1..mList.size -1){
+                        mList.add(StepperModel(i,false))
+                    }
+                  //  StepperModel(checkPosition+1,false)
+                    steppersAdapter.notifyItemChanged(checkPosition)
+                    steppersAdapter.submitList(mList)
+                    steppersAdapter.notifyDataSetChanged()
+                    checkPosition = value
+                   // binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.round_button)
+                }*/
+
+                if(model.isCompleted.equals(true)){
+                    model.isSelected = true
+                    model.isCompleted = true
+                    Log.e("model", "onCreate: "+model)
+                    binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.complete)
+                }
+                else if(model.isCompleted.equals(false)){
+
+                    if(model.isSelected.equals(false)){
+                        Toast.makeText(this@MainActivity, ""+value, Toast.LENGTH_SHORT).show()
+                        model.isSelected = true
+                        binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
+                    }
+
+                }
+
+                nextID.setOnClickListener {
+                    model.isCompleted = true
+                    if(model.isCompleted.equals(true)){
+                        binding.stepperText.setTextColor(resources.getColor(R.color.white))
+                        binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.complete)
+                    }
+
+                }
+
+
             }
         })
 
