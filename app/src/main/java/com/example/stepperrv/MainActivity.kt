@@ -41,45 +41,52 @@ class MainActivity : AppCompatActivity() {
 
         steppersAdapter = SteppersAdapter({binding, value, model ->
             if(checkPosition==value){
+                //val m = StepperModel(checkPosition+1,false,true)
+                if(model.isCompleted.equals(false)){
+                    binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
+                }
                 Log.e("model", "onCreate: hhhh"+model )
                 nextID.setOnClickListener {
                     model.isCompleted = true
+                    model.isSelected = false
                     if(model.isCompleted.equals(true)){
                         binding.stepperText.setTextColor(resources.getColor(R.color.white))
                         binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.complete)
                     }
-
                 }
-                binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
+            }else{
+                if(model.isCompleted.equals(false)){
+                    binding.stepperText.setTextColor(resources.getColor(R.color.green))
+                    binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.round_button)
+                }
             }
 
 
             binding.stepperText.setOnClickListener {
 
-                /*if(value!=checkPosition){
-                    for(i in 1..mList.size -1){
-                        mList.add(StepperModel(i,false))
-                    }
-                  //  StepperModel(checkPosition+1,false)
-                    steppersAdapter.notifyItemChanged(checkPosition)
-                    steppersAdapter.submitList(mList)
-                    steppersAdapter.notifyDataSetChanged()
-                    checkPosition = value
-                   // binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.round_button)
-                }*/
+                stepRV.scrollToPosition(mList.size - (mList.size-(value+2)) )
 
                 if(model.isCompleted.equals(true)){
                     model.isSelected = true
                     model.isCompleted = true
                     Log.e("model", "onCreate: "+model)
+                    binding.stepperText.setTextColor(resources.getColor(R.color.white))
                     binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.complete)
+                    val m = StepperModel(checkPosition+1,false,true)
+                    checkPosition = value
+                    steppersAdapter.notifyItemChanged(steppersAdapter.currentList.indexOf(m))
+
                 }
                 else if(model.isCompleted.equals(false)){
 
                     if(model.isSelected.equals(false)){
                         Toast.makeText(this@MainActivity, ""+value, Toast.LENGTH_SHORT).show()
-                        model.isSelected = true
+                        binding.stepperText.setTextColor(resources.getColor(R.color.green))
                         binding.stepperText.background = ContextCompat.getDrawable(this@MainActivity,R.drawable.select_button)
+                        val m = StepperModel(checkPosition+1,false)
+                        checkPosition = value
+                        steppersAdapter.notifyItemChanged(steppersAdapter.currentList.indexOf(m))
+
                     }
 
                 }
